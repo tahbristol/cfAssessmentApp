@@ -1,8 +1,7 @@
 <cfscript>
   if(isDefined("form.address")){
-    include "../scripts/getOfficials.cfm";
-    local.officials = getOfficials(form.address);
-    arrayEach(officials, function(official){
+    include "../scripts/getOfficials.cfm";  
+    arrayEach(getOfficials(form.address), function(official){
       displayOfficial(official);
     });
   }
