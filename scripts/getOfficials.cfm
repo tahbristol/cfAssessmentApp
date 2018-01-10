@@ -24,7 +24,7 @@
       official.phone = officials[index + 1]["phones"][1];
       official.url = officials[index + 1]["urls"][1];
       official.position = office["name"];
-      include "displayOfficials.cfm";
+      include "../views/officials/index.cfm";
     });
   });
 </cfscript>

@@ -25,7 +25,7 @@
         <p>
           Text this info?</p>
       </div>
-      
+
     </div>
   </div>
 
