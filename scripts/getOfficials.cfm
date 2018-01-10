@@ -1,22 +1,22 @@
 <cfscript>
   function getOfficials(address){
-    apiKey = "AIzaSyD5JWZW3JJSHUYyE8wKCLUOnesa5Udd1AI";
-    qUrl = "https://www.googleapis.com/civicinfo/v2/representatives?address=#address#&key=#apiKey#";
-    httpService = new http(method = "GET", url = qUrl);
-    result = httpService.send().getPrefix();
-    goodData = deserializeJSON(result.filecontent);
-    officials = goodData.Officials;
-    offices = goodData.offices;
-    divisions = goodData.divisions;
+    local.apiKey = "AIzaSyD5JWZW3JJSHUYyE8wKCLUOnesa5Udd1AI";
+    local.qUrl = "https://www.googleapis.com/civicinfo/v2/representatives?address=#address#&key=#apiKey#";
+    local.httpService = new http(method = "GET", url = qUrl);
+    local.result = httpService.send().getPrefix();
+    local.goodData = deserializeJSON(result.filecontent);
+    local.officials = goodData.Officials;   //without local. variables are global....bad.
+    local.offices = goodData.offices;
+    local.divisions = goodData.divisions;
      return makeOfficialStruct(officials,offices,divisions);
 
     }
 
     function makeOfficialStruct(officials,offices,divisions){
-      officialsArray = [];
+      local.officialsArray = [];
       arrayEach(offices, function (office) {
         arrayEach(office["officialIndices"], function (index) {
-          official = StructNew();
+          local.official = StructNew();
 
           if (StructKeyExists(officials[index + 1], "emails")) {
             official.email = officials[index + 1]["emails"][1];
