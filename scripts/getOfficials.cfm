@@ -8,34 +8,38 @@
     local.officials = goodData.Officials;   //without local. variables are global....bad.
     local.offices = goodData.offices;
     local.divisions = goodData.divisions;
+
      return makeOfficialStruct(officials,offices,divisions);
 
     }
 
     function makeOfficialStruct(officials,offices,divisions){
+      local.officialInfoFields = ["name","party","phones","urls","emails","position"];
       local.officialsArray = [];
       arrayEach(offices, function (office) {
         arrayEach(office["officialIndices"], function (index) {
           local.official = StructNew();
+            arrayEach(officialInfoFields, function(infoField){
+               if (StructKeyExists(officials[index + 1], infoField)){
+                 if(infoField IS "phones" || infoField IS "emails" || infoField IS "urls"){
+                   official[infoField] = officials[index + 1][infoField][1];
+                 } else {
+                   official[infoField] = officials[index + 1][infoField];
+                 }
+               } else {
+                 official[infoField] = "Unknown";
+               }
 
-          if (StructKeyExists(officials[index + 1], "emails")) {
-            official.email = officials[index + 1]["emails"][1];
-          } else {
-            official.email = "unknown";
-          }
-
-          official.name = officials[index + 1].name;
-          official.party = officials[index + 1].party;
-          official.phone = officials[index + 1]["phones"][1];
-          official.url = officials[index + 1]["urls"][1];
-          official.position = office["name"];
+              });
           arrayAppend(officialsArray, official);
         });
       });
+
      return officialsArray;
     }
 
     function displayOfficial(official){
+      
       include "../views/officials/index.cfm";
     }
 </cfscript>

@@ -1,5 +1,5 @@
 <cfoutput>
-  
+
   <div id="body" class="container">
     <div class="row">
 
@@ -14,9 +14,9 @@
         <p>
           Party: #official.party#</p>
         <p>
-          Email: #official.email#</p>
+          Email: #official.emails#</p>
         <p>
-          Phone: #official.phone#</p>
+          Phone: #official.phones#</p>
         <a href="" target="_blank">
           Website</a>
       </div>
