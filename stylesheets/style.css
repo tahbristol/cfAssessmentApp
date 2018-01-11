@@ -4,7 +4,18 @@ html{
 
 body {
  font-family: 'Roboto', sans-serif;
+ position: relative;
 }
+
+.container, .row {
+  text-align: center;
+}
+
+ul li {
+  list-style: none !important;
+}
+
+
 
 header {
   float: right;

@@ -19,7 +19,7 @@
         <div class="cover-container">
           <cfinclude template="./headers/header.cfm">
           <div class="clearfix"></div>
-          <cfinclude template="../scripts/test.cfm">
+          
           <cfinclude template="main.cfm">
         </div>
       </div>
