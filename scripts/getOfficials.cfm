@@ -1,3 +1,23 @@
+<cfloop from="1" to="#arrayLen(officeIndices)#" index="i">
+   <cfloop from="1" to="#arrayLen(officialsInfoFields)#" index="j">
+      <cfif StructKeyExists(officials[i], officialsInfoFields[j])>
+        <cfdump var="#officials[i]#">
+           <cfif officialsInfoFields[j] IS "phones" || officialsInfoFields[j] IS "emails" || officialsInfoFields[j] IS "urls">
+             <cfset official[officialsInfoFields[j]] = officials[i][officialsInfoFields[j]][1] />
+           <cfelse>
+              <cfset official[officialsInfoFields[j]] = officials[i][officialsInfoFields[j]] />
+           </cfif>
+      </cfif>
+
+
+   </cfloop>
+   <cfoutput>------------------------</cfoutput>
+  <cfdump var="#official#"/>
+
+
+
+</cfloop>
+
 <cfscript>
   function getOfficials(address){
     local.apiKey = "AIzaSyD5JWZW3JJSHUYyE8wKCLUOnesa5Udd1AI";
@@ -13,6 +33,8 @@
 
     }
 
+
+ <cfset official = {officials[i][officialsInfoFields[j]] = officials[i][officialsInfoFields[j]][1]} >
     function makeOfficialStruct(officials,offices,divisions){
       local.officialInfoFields = ["name","party","phones","urls","emails","position"];
       local.officialsArray = [];
@@ -39,7 +61,7 @@
     }
 
     function displayOfficial(official){
-      
+
       include "../views/officials/index.cfm";
     }
 </cfscript>

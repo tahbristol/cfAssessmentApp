@@ -2,6 +2,7 @@
 <cfif isDefined("form.address") and len(trim(form.address))>
   <cfset response = requestData(form.address) />
   <cfset test = makeOfficialsStruct(response) />
+  <cfdump var="#isArray(test)#"/>
 </cfif>
 
 
@@ -67,8 +68,6 @@
                 </div>
                 <button class="btn btn-primary" type="submit" value="address">Search</button>
               </form>
-
-
           </main>
         </div>
       </div>
@@ -79,19 +78,40 @@
 </html>
 
 <cffunction name = "requestData" returnType = "string">
-  <cfargument name= "address" type="string">
-  <cfhttp result="result" method="GET" charset="utf-8" url="https://www.googleapis.com/civicinfo/v2/representatives?address=#address#&key=AIzaSyD5JWZW3JJSHUYyE8wKCLUOnesa5Udd1AI">
-    <cfreturn result.filecontent />
+    <cfargument name= "address" type="string">
+    <cfhttp result="result" method="GET" charset="utf-8" url="https://www.googleapis.com/civicinfo/v2/representatives?address=#address#&key=AIzaSyD5JWZW3JJSHUYyE8wKCLUOnesa5Udd1AI">
+      <cfreturn result.filecontent />
 </cffunction>
 
-<cffunction name = "makeOfficialsStruct" returnType = "[]">
-  <cfargument name="officialsString" type="string">
-  <cfset officialsJSON = deserializeJSON(officialsString) >
-  <cfset officialsInfoFields = ["name","party","phones","urls","emails","position"] >
-  <cfset officialsArray = {} >
-  <cfset officials = officialsJSON.officials >
-  <cfset offices = officialsJSON.offices >
-  <cfloop from="1" to="#arrayLen(offices)#" index="i">
-        <cfdump var="#offices[i]#"> <!-- stoped here 1/11/18 4:45 -->
-  </cfloop>
+<cffunction name = "makeOfficialsStruct" >
+   <cfargument name="officialsString" type="string">
+   <cfset officialsJSON = deserializeJSON(officialsString) />
+   <cfset officialsInfoFields = ["name","party","phones","urls","emails","position"] />
+   <cfset officialsArray = [] >
+
+   <cfset officials = officialsJSON.officials >
+   <cfset offices = officialsJSON.offices >
+   <cfset officeIndices = [] >
+
+   <cfloop from="1" to="#arrayLen(offices)#" index="i">
+     <cfset official = {}>
+     <cfloop from="1" to="#arrayLen(offices[i].officialIndices)#" index="j">
+            <cfif StructKeyExists(officials[offices[i].officialIndices[j]+1], "emails") >
+              <cfset official["email"] = officials[offices[i].officialIndices[j] + 1].emails[1] />
+           <cfelse>
+             <cfset official["email"] = "Unknown" />
+           </cfif>
+            <cfif StructKeyExists(officials[offices[i].officialIndices[j]+1], "urls")>
+              <cfset official["website"] = officials[offices[i].officialIndices[j] + 1].urls[1] />
+            <cfelse>
+              <cfset official["website"] = "Unknown" />
+            </cfif>
+              <cfset official["name"] = officials[offices[i].officialIndices[j] + 1].name />
+              <cfset official["party"] = officials[offices[i].officialIndices[j] + 1].party />
+               <cfset official["phone"] = officials[offices[i].officialIndices[j] + 1].phones[1] />
+              <cfset official["position"] = offices[i].name />
+     </cfloop>
+     <cfset officialDone = arrayAppend(officialsArray, official) />
+   </cfloop>
+   <cfreturn officialsArray>
 </cffunction>
