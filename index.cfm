@@ -67,20 +67,20 @@
               <button class="btn btn-primary" type="submit" value="address">Search</button>
             </form>
 
-            <cfif isDefined("officialsArray") and isArray(officialsArray)>
+                <cfif isDefined("officialsArray") and isArray(officialsArray)>
               <cfloop from="1" to="#arrayLen(officialsArray)#" index="i">
                 <cfoutput>
-                  <div id="body" class="container">
+                  <div id="body" class="container card">
                     <div class="row">
 
-                      <div class="col-sm-4">
+                      <div class="col-sm-6">
                         <h3>
                           #officialsArray[i].name#</h3>
                         <h5>
                           #officialsArray[i].position#</h5>
                       </div>
 
-                      <div class="col-sm-4">
+                      <div class="col-sm-6">
                         <p>
                           Party: #officialsArray[i].party#</p>
                         <p>
@@ -91,16 +91,12 @@
                           Website</a>
                       </div>
 
-                      <div class="col-sm-4">
-                        <input id="sendOfficial" name="officials[to_send][]" value={{id} }="}" type="checkbox"/>
-                        <p>
-                          Text this info?</p>
-                      </div>
+
 
                     </div>
                   </div>
 
-                  <hr>
+
 
                 </cfoutput>
               </cfloop>
@@ -109,7 +105,7 @@
             <cfif isDefined("electionsArray") and isArray(electionsArray)>
 
               <cfoutput>
-                <div id="body" class="container">
+                <div id="body" class="container card">
                   <div class="row">
                     <div class="col-sm-4">
                       <h3>Election</h3>
@@ -154,6 +150,8 @@
         </div>
       </div>
     </div>
+
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   </body>
