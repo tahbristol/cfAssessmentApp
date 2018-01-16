@@ -79,7 +79,9 @@
 
                       <div class="col-sm-12">
                         <div class="thumbnail">
+                          <cfif officialsArray[i].photo is not "">
                           <img src="#officialsArray[i].photo#" alt="photo of #officialsArray[i].name#"/>
+                        </cfif>
                           <div class="caption">
                             <h3>
                               #officialsArray[i].name#</h3>
