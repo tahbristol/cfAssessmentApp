@@ -1,9 +1,13 @@
 <cfif isDefined("form.address") and len(trim(form.address)) and isDefined("form.search")>
   <cfset  response=requestData(form.address, form.search)/>
-  <cfif form.search IS "officials">
+
+  <cfif form.search IS "officials" and  StructKeyExists(deserializeJSON(response), "error") is not "YES">
     <cfset  officialssArray=makeOfficialsStruct(response)/>
-  <cfelse>
+  <cfelseif form.search is "elections" and StructKeyExists(deserializeJSON(response), "error") is not "YES">
     <cfset  electionsArray=makeElectionsStruct(response)/>
+  <cfelse>
+    <cfset requestError="error" />
+    <cfset requestErrorMessage=getErrorMessage(response)/>
   </cfif>
 </cfif>
 
@@ -99,52 +103,51 @@
 
                 </cfoutput>
               </cfloop>
-            </cfif>
+              <cfelseif isDefined("electionsArray") and isArray(electionsArray)>
+                <cfoutput>
+                  <div id="body" class="container card">
+                    <div class="row">
+                      <div class="col-sm-4">
+                        <h3>Election</h3>
+                        <h5>#electionsArray[1].name#</h5>
+                        <h5>Date: #electionsArray[1].electionDay#</h5>
+                      </div>
+                      <div class="col-sm-4">
+                        <ul>
+                          <h3>Voting Help</h3>
+                          <li>
+                            <a href="#electionsArray[2].ballotInfoUrl#">Ballot Info</a>
+                          </li>
+                          <li>
+                            <a href="#electionsArray[2].electionRegistrationUrl#">Register</a>
+                          </li>
+                          <li>
+                            <a href="#electionsArray[2].electionRulesUrl#">Voting Rules</a>
+                          </li>
+                        </ul>
+                      </div>
 
-            <cfif isDefined("electionsArray") and isArray(electionsArray)>
+                      <div class="col-sm-4">
+                        <ul>
+                          <h3>Ballot Drop Off Locations</h3>
+                          <li>#electionsArray[3][1].address.locationName#</li>
+                          <li>#electionsArray[3][1].address.line1#</li>
+                          <li>#electionsArray[3][1].address.city#, #electionsArray[3][1].address.state# #electionsArray[3][1].address.zip#</li>
+                          <li></li>
+                          <li></li>
 
-              <cfoutput>
-                <div id="body" class="container card">
-                  <div class="row">
-                    <div class="col-sm-4">
-                      <h3>Election</h3>
-                      <h5>#electionsArray[1].name#</h5>
-                      <h5>Date: #electionsArray[1].electionDay#</h5>
+                        </ul>
+                      </div>
+
                     </div>
-                    <div class="col-sm-4">
-                      <ul>
-                        <h3>Voting Help</h3>
-                        <li>
-                          <a href="#electionsArray[2].ballotInfoUrl#">Ballot Info</a>
-                        </li>
-                        <li>
-                          <a href="#electionsArray[2].electionRegistrationUrl#">Register</a>
-                        </li>
-                        <li>
-                          <a href="#electionsArray[2].electionRulesUrl#">Voting Rules</a>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div class="col-sm-4">
-                      <ul>
-                        <h3>Ballot Drop Off Locations</h3>
-                        <li>#electionsArray[3][1].address.locationName#</li>
-                        <li>#electionsArray[3][1].address.line1#</li>
-                        <li>#electionsArray[3][1].address.city#, #electionsArray[3][1].address.state# #electionsArray[3][1].address.zip#</li>
-                        <li></li>
-                        <li></li>
-
-                      </ul>
-                    </div>
-
                   </div>
-                </div>
 
-              </cfoutput>
-
+                </cfoutput>
+                <cfelseif isDefined("requestError")>
+                  <cfoutput>
+                        <div>#requestErrorMessage#</div>
+                  </cfoutput>
             </cfif>
-
           </main>
         </div>
       </div>
@@ -165,6 +168,7 @@
   </cfif>
 
   <cfreturn result.filecontent/>
+
 </cffunction>
 
 <cffunction name="makeOfficialsStruct">
@@ -215,12 +219,21 @@
 
 <cffunction name="makeElectionsStruct">
   <cfargument name="electionsString" type="string">
-  <cfset  electionsJSON=deserializeJSON(electionsString)>
+
+  <cfset  electionsJSON=deserializeJSON(electionsString)/>
   <cfset  elections=electionsJSON.election/>
   <cfset  userAddress=electionsJSON.normalizedInput/>
   <cfset  dropOffLocations=arraySlice(electionsJSON.dropOffLocations, 1, 3)/>
 
   <cfset  stateInfo=electionsJSON.state[1]/>
   <cfset  votingInfo=stateInfo.electionAdministrationBody/>
+
   <cfreturn [elections, votingInfo, dropOffLocations]/>
+</cffunction>
+
+<cffunction name="getErrorMessage">
+  <cfargument name="errorString" type="string">
+  <cfset local.errorJSON=deserializeJSON(errorString)/>
+  <cfset local.message=errorJSON.error.errors[1].message/>
+  <cfreturn message>
 </cffunction>
