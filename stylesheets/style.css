@@ -148,6 +148,10 @@ div#body.container.card {
   box-shadow: 2px 2px 2px 2px grey;
 }
 
-#errorMessage {
-
+hr#dropOffsRule {
+  border-top: 1px solid black;
+  width: 20%;
+}
+button#dropOffsBtn {
+  margin: 5px;
 }

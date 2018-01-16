@@ -46,11 +46,11 @@
 								<label for="address">Address</label>
 								<cfif isDefined("form.address")>
 									<cfoutput>
-										<input class="form-control" id="addressToSearch" name="address" placeholder="Address..." value="#form.address#"/>
+										<input class="form-control" id="addressToSearch" name="address" placeholder="At least a zipcode for officials. Elections need a full address." value="#form.address#"/>
 									</cfoutput>
 								<cfelse>
 									<cfoutput>
-										<input class="form-control" id="addressToSearch" name="address" placeholder="Address..." value=""/>
+										<input class="form-control" id="addressToSearch" name="address" placeholder="At least a zipcode for officials. Elections need a full address." value=""/>
 									</cfoutput>
 								</cfif>
 									<label>
@@ -105,6 +105,8 @@
 							</cfloop>
 							<cfelseif isDefined("electionsArray") and isArray(electionsArray)>
 								<cfoutput>
+
+
 									<div id="body" class="container card">
 										<div class="row">
 											<div class="col-sm-4">
@@ -129,15 +131,22 @@
 											<div class="col-sm-4">
 												<ul>
 													<h3>Ballot Drop Off Locations</h3>
-													<li>#electionsArray[3][1].address.locationName#</li>
-													<li>#electionsArray[3][1].address.line1#</li>
-													<li>#electionsArray[3][1].address.city#, #electionsArray[3][1].address.state# #electionsArray[3][1].address.zip#</li>
-													<li></li>
-													<li></li>
+													<button class="btn btn-primary" id="dropOffsBtn" type="button" data-toggle="collapse" data-target="##dropOffLocations">Expand</button>
+													<div class="collapse" id="dropOffLocations">
+														<cfloop from="1" to="#arrayLen(electionsArray[3])#" index="i">
+														<li>#electionsArray[3][i].address.line1#</li>
+														<li>#electionsArray[3][i].address.locationName#</li>
+														<li>#electionsArray[3][i].address.city#, #electionsArray[3][i].address.state# #electionsArray[3][i].address.zip#</li>
+														<li></li>
+														<li></li>
+														<hr id="dropOffsRule"/>
+													</cfloop>
+													</div>
 												</ul>
 											</div>
 										</div>
 									</div>
+
 								</cfoutput>
 								<cfelseif isDefined("requestError")>
 									<cfoutput>
