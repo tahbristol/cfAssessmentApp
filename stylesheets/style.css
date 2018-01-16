@@ -155,3 +155,6 @@ hr#dropOffsRule {
 button#dropOffsBtn {
   margin: 5px;
 }
+#addressInput > small{
+  color: black;
+}
