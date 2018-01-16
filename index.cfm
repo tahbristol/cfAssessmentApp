@@ -145,8 +145,18 @@
                 </cfoutput>
                 <cfelseif isDefined("requestError")>
                   <cfoutput>
-                        <div>#requestErrorMessage#</div>
-                  </cfoutput>
+                  <cfswitch expression="#requestErrorMessage#">
+                    <cfcase value="Election unknown">
+                      <div id="searchError">It looks like there are no upcomming elections for your address. Check back at a later date.</div>
+                    </cfcase>
+                    <cfcase value="Failed to parse address">
+                      <div id="searchError">There seems to be a problem with the address you entered. Please use a full address with street, city, state and zip.</div>
+                    </cfcase>
+                    <cfdefaultcase>
+                      <div id="searchError">There was a problem with the search request. Please try again later.</div>
+                    </cfdefaultcase>
+                  </cfswitch>
+                </cfoutput>
             </cfif>
           </main>
         </div>
