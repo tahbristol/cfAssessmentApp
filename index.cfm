@@ -1,9 +1,9 @@
 <cfif isDefined("form.address") and len(trim(form.address)) and isDefined("form.search")>
-  <cfset response=requestData(form.address, form.search)/>
+  <cfset  response=requestData(form.address, form.search)/>
   <cfif form.search IS "officials">
-    <cfset officialssArray=makeOfficialsStruct(response)/>
+    <cfset  officialssArray=makeOfficialsStruct(response)/>
   <cfelse>
-    <cfset electionsArray=makeElectionsStruct(response)/>
+    <cfset  electionsArray=makeElectionsStruct(response)/>
   </cfif>
 </cfif>
 
@@ -22,7 +22,6 @@
     <!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
   </head>
   <body>
-
 
     <div class="site-wrapper">
       <div class="site-wrapper-inner">
@@ -68,7 +67,7 @@
               <button class="btn btn-primary" type="submit" value="address">Search</button>
             </form>
 
-                <cfif isDefined("officialsArray") and isArray(officialsArray)>
+            <cfif isDefined("officialsArray") and isArray(officialsArray)>
               <cfloop from="1" to="#arrayLen(officialsArray)#" index="i">
                 <cfoutput>
                   <div id="body" class="container card">
@@ -76,41 +75,27 @@
 
                       <div class="col-sm-12">
                         <div class="thumbnail">
-                          <img src="#officialsArray[i].photo#" alt="photo of #officialsArray[i].name#" />
+                          <img src="#officialsArray[i].photo#" alt="photo of #officialsArray[i].name#"/>
                           <div class="caption">
-                        <h3>
-                          #officialsArray[i].name#</h3>
-                        <p>
-                          #officialsArray[i].position#</p>
-                          <p>
-                            Party: #officialsArray[i].party#</p>
-                          <p>
-                            Email: #officialsArray[i].email#</p>
-                          <p>
-                            Phone: #officialsArray[i].phone#</p>
-                          <a href="#officialsArray[i].website#" target="_blank">
-                            Website</a>
-                        </div>
+                            <h3>
+                              #officialsArray[i].name#</h3>
+                            <p>
+                              #officialsArray[i].position#</p>
+                            <p>
+                              Party: #officialsArray[i].party#</p>
+                            <p>
+                              Email: #officialsArray[i].email#</p>
+                            <p>
+                              Phone: #officialsArray[i].phone#</p>
+                            <a href="#officialsArray[i].website#" target="_blank">
+                              Website</a>
+                          </div>
                         </div>
                       </div>
-<!--
-                      <div class="col-sm-6">
-                        <p>
-                          Party: #officialsArray[i].party#</p>
-                        <p>
-                          Email: #officialsArray[i].email#</p>
-                        <p>
-                          Phone: #officialsArray[i].phone#</p>
-                        <a href="#officialsArray[i].website#" target="_blank">
-                          Website</a>
-                      </div>
--->
-
+                      <!-- <div class="col-sm-6"> <p> Party: #officialsArray[i].party#</p> <p> Email: #officialsArray[i].email#</p> <p> Phone: #officialsArray[i].phone#</p> <a href="#officialsArray[i].website#" target="_blank"> Website</a> </div> -->
 
                     </div>
                   </div>
-
-
 
                 </cfoutput>
               </cfloop>
@@ -165,7 +150,6 @@
       </div>
     </div>
 
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
   </body>
@@ -185,57 +169,58 @@
 
 <cffunction name="makeOfficialsStruct">
   <cfargument name="officialsString" type="string">
-  <cfset officialsJSON=deserializeJSON(officialsString)/>
-  <cfset officialsInfoFields=["name" ,"party" ,"phones" ,"urls" ,"emails" ,"position", "photoUrl" ]/>
-  <cfset officialsArray=[]>
+  <cfset  officialsJSON=deserializeJSON(officialsString)/>
+  <cfset  officialsInfoFields=["name" ,"party" ,"phones" ,"urls" ,"emails" ,"position" , "photoUrl"]/>
+  <cfset  officialsArray=[]>
 
-  <cfset officials=officialsJSON.officials>
-  <cfset offices=officialsJSON.offices>
-  <cfset officeIndices=[]>
+  <cfset  officials=officialsJSON.officials>
+  <cfset  offices=officialsJSON.offices>
+  <cfset  officeIndices=[]>
 
   <cfloop from="1" to="#arrayLen(offices)#" index="i">
-    <cfset official={}>
+    <cfset  official={}>
     <cfloop from="1" to="#arrayLen(offices[i].officialIndices)#" index="j">
 
       <cfif StructKeyExists(officials[offices[i].officialIndices[j]+1], "emails")>
-        <cfset official["email" ]=officials[offices[i].officialIndices[j] + 1].emails[1]/>
+        <cfset  official["email"]=officials[offices[i].officialIndices[j] + 1].emails[1]/>
       <cfelse>
-        <cfset official["email" ]="Unknown"/>
+        <cfset  official["email"]="Unknown"/>
       </cfif>
 
       <cfif StructKeyExists(officials[offices[i].officialIndices[j]+1], "urls")>
-        <cfset official["website" ]=officials[offices[i].officialIndices[j] + 1].urls[1]/>
+        <cfset  official["website"]=officials[offices[i].officialIndices[j] + 1].urls[1]/>
       <cfelse>
-        <cfset official["website" ]="Unknown"/>
+        <cfset  official["website"]="Unknown"/>
       </cfif>
 
       <cfif StructKeyExists(officials[offices[i].officialIndices[j]+1], "phones")>
-        <cfset official["phone" ]=officials[offices[i].officialIndices[j] + 1].phones[1]/>
+        <cfset  official["phone"]=officials[offices[i].officialIndices[j] + 1].phones[1]/>
       <cfelse>
-        <cfset official["phone" ]="Unknown"/>
+        <cfset  official["phone"]="Unknown"/>
       </cfif>
-      <cfif StructKeyExists(officials[offices[i].officialIndices[j]+1], "photoUrl") >
-        <cfset official["photo" ]=officials[offices[i].officialIndices[j] + 1].photoUrl/>
-        <cfelse>
-          <cfset official["photo" ]= ""/>
+      <cfif StructKeyExists(officials[offices[i].officialIndices[j]+1], "photoUrl")>
+        <cfset  official["photo"]=officials[offices[i].officialIndices[j] + 1].photoUrl/>
+      <cfelse>
+        <cfset  official["photo"]=""/>
       </cfif>
-      <cfset official["name" ]=officials[offices[i].officialIndices[j] + 1].name/>
-      <cfset official["party" ]=officials[offices[i].officialIndices[j] + 1].party/>
+      <cfset  official["name"]=officials[offices[i].officialIndices[j] + 1].name/>
+      <cfset  official["party"]=officials[offices[i].officialIndices[j] + 1].party/>
 
-      <cfset official["position" ]=offices[i].name/>
+      <cfset  official["position"]=offices[i].name/>
     </cfloop>
-    <cfset officialDone=arrayAppend(officialsArray, official)/>
+    <cfset  officialDone=arrayAppend(officialsArray, official)/>
   </cfloop>
   <cfreturn officialsArray>
 </cffunction>
 
 <cffunction name="makeElectionsStruct">
   <cfargument name="electionsString" type="string">
-  <cfset electionsJSON=deserializeJSON(electionsString)>
-  <cfset elections=electionsJSON.election/>
-  <cfset userAddress=electionsJSON.normalizedInput/>
-  <cfset dropOffLocations=arraySlice(electionsJSON.dropOffLocations, 1, 3)/>
-  <cfset stateInfo=electionsJSON.state[1]/>
-  <cfset votingInfo=stateInfo.electionAdministrationBody/>
+  <cfset  electionsJSON=deserializeJSON(electionsString)>
+  <cfset  elections=electionsJSON.election/>
+  <cfset  userAddress=electionsJSON.normalizedInput/>
+  <cfset  dropOffLocations=arraySlice(electionsJSON.dropOffLocations, 1, 3)/>
+
+  <cfset  stateInfo=electionsJSON.state[1]/>
+  <cfset  votingInfo=stateInfo.electionAdministrationBody/>
   <cfreturn [elections, votingInfo, dropOffLocations]/>
 </cffunction>
