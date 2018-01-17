@@ -8,8 +8,8 @@
 				<cfelseif rc.search is "elections" and StructKeyExists(deserializeJSON(rc.data), "error") is not "YES">
 					<cfset rc.electionsArray = application.model.cfApp.makeElectionsStruct(rc.data)/>
 				<cfelse>
-				<cfset rc.requestError = "error" />
-				<cfset rc.requestErrorMessage = application.model.cfApp.getErrorMessage(rc.data)/>
+					<cfset rc.requestError = "error" />
+					<cfset rc.requestErrorMessage = application.model.cfApp.getErrorMessage(rc.data)/>
 				</cfif>
 		</cfif>
 	</cffunction>
