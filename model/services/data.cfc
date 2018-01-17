@@ -42,9 +42,25 @@
 				<cfelse>
 					<cfset  official["photo"]=""/>
 				</cfif>
+
 				<cfset  official["name"]=officials[offices[i].officialIndices[j] + 1].name/>
-				<cfset  official["party"]=officials[offices[i].officialIndices[j] + 1].party/>
-				<cfset  official["position"]=offices[i].name/>
+
+				<cfif StructKeyExists(officials[offices[i].officialIndices[j]+1], "party")>
+					<cfset  official["party"]=officials[offices[i].officialIndices[j] + 1].party/>
+				<cfelse>
+					<cfset  official["party"]="Unknown"/>
+				</cfif>
+
+
+				<cfif StructKeyExists(offices[i], "position")>
+					<cfset  official["position"]=offices[i].name/>
+				<cfelse>
+					<cfset  official["position"]="Unknown"/>
+				</cfif>
+
+
+
+
 			</cfloop>
 			<cfset  local.officialDone=arrayAppend(local.officialsArray, official)/>
 		</cfloop>
