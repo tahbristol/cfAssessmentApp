@@ -1,6 +1,4 @@
 <cfoutput>
-
-
 	<div class="site-wrapper">
 		<div class="site-wrapper-inner">
 			<div class="cover-container">
@@ -13,12 +11,10 @@
 					</div>
 				</header>
 				<div class="clearfix"></div>
-
-				#body#
+				<main>
+					#body#
 				</main>
 			</div>
 		</div>
 	</div>
-
-
 </cfoutput>

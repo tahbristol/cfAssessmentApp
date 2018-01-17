@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -12,25 +11,20 @@
 		<link rel="stylesheet" href="./css/style.css">
 		<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 		<!--[if lt IE 9]> <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.2/html5shiv.js"></script> <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script> <![endif]-->
-		<style>
-
-		</style>
+		<style></style>
 	</head>
 	<body>
-<cfoutput>
-
-    #body#
-</cfoutput>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script>
-	function initAutocomplete(){
-		let input = document.getElementById('addressToSearch');
-		let autoComplete = new google.maps.places.Autocomplete(input);
-	}
-</script>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZWJBrVt-tKatWxvN0S2fiihF2H4oRT20&libraries=places&callback=initAutocomplete"
-		async defer></script>
-
-</body>
+		<cfoutput>
+			#body#
+		</cfoutput>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script>
+			function initAutocomplete() {
+				let input = document.getElementById('addressToSearch');
+				let autoComplete = new google.maps.places.Autocomplete(input);
+			}
+		</script>
+		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZWJBrVt-tKatWxvN0S2fiihF2H4oRT20&libraries=places&callback=initAutocomplete" async="async" defer="defer"></script>
+	</body>
 </html>
