@@ -35,7 +35,7 @@
 				<cfelse>
 					<cfset official["email" ]="Unknown"/>
 				</cfif>
-				
+
 				<cfif StructKeyExists(officials[offices[i].officialIndices[j]+1], "urls")>
 					<cfset official["website" ]=officials[offices[i].officialIndices[j] + 1].urls[1]/>
 				<cfelse>

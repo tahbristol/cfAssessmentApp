@@ -39,21 +39,25 @@
 							<div class="col-sm-12">
 								<div class="thumbnail">
 									<cfif rc.officialsArray[i].photo is not "">
-										<img src="#rc.officialsArray[i].photo#" alt="photo of #rc.officialsArray[i].name#"/>
+										<img src="#htmleditformat(rc.officialsArray[i].photo)#" alt="photo of #htmleditformat(rc.officialsArray[i].name)#"/>
 									</cfif>
 									<div class="caption">
 										<h3>
-											#rc.officialsArray[i].name#</h3>
+											#htmleditformat(rc.officialsArray[i].name)#</h3>
 										<p>
-											#rc.officialsArray[i].position#</p>
+											#htmleditformat(rc.officialsArray[i].position)#</p>
 										<p>
-											Party: #rc.officialsArray[i].party#</p>
+											Party: #htmleditformat(rc.officialsArray[i].party)#</p>
 										<p>
-											Email: #rc.officialsArray[i].email#</p>
+											Email: #htmleditformat(rc.officialsArray[i].email)#</p>
 										<p>
-											Phone: #rc.officialsArray[i].phone#</p>
-										<a href="#rc.officialsArray[i].website#" target="_blank">
+											Phone: #htmleditformat(rc.officialsArray[i].phone)#</p>
+										<cfif rc.officialsArray[i].website is "Unknown">
+											<p>Website: Unknown</p>
+										<cfelse>
+											<a href="#htmleditformat(rc.officialsArray[i].website)#" target="_blank">
 											Website</a>
+										</cfif>
 									</div>
 								</div>
 							</div>
@@ -67,20 +71,20 @@
 					<div class="row">
 						<div class="col-sm-4">
 							<h3>Election</h3>
-							<h5>#rc.electionsArray[1].name#</h5>
-							<h5>Date: #rc.electionsArray[1].electionDay#</h5>
+							<h5>#htmleditformat(rc.electionsArray[1].name)#</h5>
+							<h5>Date: #htmleditformat(rc.electionsArray[1].electionDay)#</h5>
 						</div>
 						<div class="col-sm-4">
 							<ul>
 								<h3>Voting Help</h3>
 								<li>
-									<a href="#rc.electionsArray[2].ballotInfoUrl#">Ballot Info</a>
+									<a href="#htmleditformat(rc.electionsArray[2].ballotInfoUrl)#">Ballot Info</a>
 								</li>
 								<li>
-									<a href="#rc.electionsArray[2].electionRegistrationUrl#">Register</a>
+									<a href="#htmleditformat(rc.electionsArray[2].electionRegistrationUrl)#">Register</a>
 								</li>
 								<li>
-									<a href="#rc.electionsArray[2].electionRulesUrl#">Voting Rules</a>
+									<a href="#htmleditformat(rc.electionsArray[2].electionRulesUrl)#">Voting Rules</a>
 								</li>
 							</ul>
 						</div>
@@ -90,11 +94,9 @@
 								<button class="btn btn-primary" id="dropOffsBtn" type="button" data-toggle="collapse" data-target="##dropOffLocations">Expand</button>
 								<div class="collapse" id="dropOffLocations">
 									<cfloop from="1" to="#arrayLen(rc.electionsArray[3])#" index="i">
-										<li>#rc.electionsArray[3][i].address.line1#</li>
-										<li>#rc.electionsArray[3][i].address.locationName#</li>
-										<li>#rc.electionsArray[3][i].address.city#, #rc.electionsArray[3][i].address.state# #rc.electionsArray[3][i].address.zip#</li>
-										<li></li>
-										<li></li>
+										<li>#htmleditformat(rc.electionsArray[3][i].address.line1)#</li>
+										<li>#htmleditformat(rc.electionsArray[3][i].address.locationName)#</li>
+										<li>#htmleditformat(rc.electionsArray[3][i].address.city)#, #htmleditformat(rc.electionsArray[3][i].address.state)# #htmleditformat(rc.electionsArray[3][i].address.zip)#</li>
 										<hr id="dropOffsRule"/>
 									</cfloop>
 								</div>
