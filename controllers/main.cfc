@@ -1,6 +1,6 @@
 <cfcomponent >
 	<cffunction name="default" output="false">
-		<cfargument name="rc" >
+		<cfargument name="rc">
 			<cfif isDefined("rc.address") and isDefined("rc.search")>
 				<cfset rc.data = application.model.cfApp.data(rc.address,rc.search)/>
 				<cfif rc.search is "officials" and StructKeyExists(deserializeJSON(rc.data), "error") is not "YES">
