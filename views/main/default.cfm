@@ -14,13 +14,21 @@
 					</cfoutput>
 				</cfif>
 				<label>
+<<<<<<< HEAD
 					<input id="searchType" type="radio" name="search" value="officials" <cfif isDefined("form.search") and rc.search is "officials">
+=======
+					<input type="radio" name="search" value="officials" <cfif isDefined("form.search") and rc.search is "officials">
+>>>>>>> 1bc94c56039ccc3a9dc1254988fc0878925a2f87
 									checked="checked"
 								</cfif>/>
 					Officials
 				</label>
 				<label>
+<<<<<<< HEAD
 					<input id="searchType" type="radio" name="search" value="elections" <cfif isDefined("form.search") and rc.search is "elections">
+=======
+					<input type="radio" name="search" value="elections" <cfif isDefined("form.search") and rc.search is "elections">
+>>>>>>> 1bc94c56039ccc3a9dc1254988fc0878925a2f87
 									checked="checked"
 								</cfif>/>
 					Elections
