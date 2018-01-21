@@ -24,7 +24,14 @@ $(document).ready(function(){
 						console.log(officialsArray);
 					});
 				}else if (searchType === "elections") {
-					let elections = response.elections
+					let elections = JSON.stringify(response);
+					$.get('./controllers/ajax.cfc?method=default'
+						{
+							electionsString: elections
+						}
+					).done((electionsArray) => {
+						console.log(electionsArray);
+					});
 				}
 
 			})
