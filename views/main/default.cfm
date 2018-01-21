@@ -14,14 +14,12 @@
 					</cfoutput>
 				</cfif>
 				<label>
-
 					<input id="searchType" type="radio" name="search" value="officials" <cfif isDefined("form.search") and rc.search is "officials">
 									checked="checked"
 								</cfif>/>
 					Officials
 				</label>
 				<label>
-
 					<input id="searchType" type="radio" name="search" value="elections" <cfif isDefined("form.search") and rc.search is "elections">
 								checked="checked"
 							</cfif>/>
@@ -33,6 +31,7 @@
 			</div>
 			<button class="btn btn-primary" type="submit" value="address">Search</button>
 		</form>
+		<div id="displayOfficials"></div>
 		<cfif isDefined("rc.officialsArray") and isArray(rc.officialsArray)>
 			<cfloop from="1" to="#arrayLen(rc.officialsArray)#" index="i">
 				<cfoutput>

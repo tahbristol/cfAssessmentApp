@@ -1,9 +1,8 @@
-<cfcomponent >
-	<cffunction name="default" output="false" access="remote" returnFormat="plain">
+<cfcomponent output="false">
+	<cffunction name="search" output="false" access="remote" returnFormat="json">
 		<cfargument name="rc">
-		<cfargument name="officialsString" default="">
-
-			<cfset rc.officialsArray = application.model.cfApp.makeOfficialsStruct(officialsString)>
-				<cfreturn rc>
+		<cfargument name="officialsString" default="" type="string">
+		<cfset rc.officialsArray=application.model.cfApp.makeOfficialsStruct(officialsString)>
+		<cfreturn rc>
 	</cffunction>
 </cfcomponent>
