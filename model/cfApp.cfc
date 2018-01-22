@@ -21,7 +21,6 @@
 		<cfargument name="officialsString" type="string">
 		<cfset local.officialsJSON=deserializeJSON(officialsString)/>
 		<cfset local.officialsInfoFields=["name" ,"party" ,"phones" ,"urls" ,"emails" ,"position" , "photoUrl" ]/>
-		<!--can remove?-->
 		<cfset local.officialsArray=[]>
 		<cfset local.officials=officialsJSON.officials/>
 		<cfset local.offices=officialsJSON.offices/>
@@ -82,7 +81,11 @@
 		<cfset local.dropOffLocations=arraySlice(electionsJSON.dropOffLocations, 1, 3)/>
 		<cfset local.stateInfo=electionsJSON.state[1]/>
 		<cfset local.votingInfo=stateInfo.electionAdministrationBody/>
-		<cfreturn [elections, votingInfo, dropOffLocations]/>
+		<cfset local.electionsStruct = {} />
+		<cfset electionsStruct.elections = elections/>
+		<cfset electionsStruct.votingInfo = votingInfo/>
+		<cfset electionsStruct.dropOffLocations = dropOffLocations/>
+		<cfreturn electionsStruct/>
 	</cffunction>
 
 	<cffunction name="getErrorMessage">

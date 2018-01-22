@@ -1,52 +1,51 @@
 $(document).ready(function() {
 	$('form').on('submit', function(e) {
 		let searchType;
-		let address = $('#addressToSearch').val();
-		if ( $('#searchElections').prop('checked')){
-		 searchType = "elections";
-		}else{
-			searchType = "officials";
+		let userAddress = $('#addressToSearch').val();
+		if ($('#searchElections').prop('checked')) {
+			searchType = 'elections';
+		} else {
+			searchType = 'officials';
 		}
 
-		console.log(searchType);
 		e.preventDefault();
-		let url = `https://www.googleapis.com/civicinfo/v2/${searchType === "officials" ? "representatives" : "voterinfo"}?address=${address}&key=AIzaSyD5JWZW3JJSHUYyE8wKCLUOnesa5Udd1AI`;
+		$.post('/cfAssessmentApp/index.cfm?action=main.search',
 
-		$.get(url)
-			.done((response) => {
-				if (searchType === "officials") {
-					let officials = JSON.stringify(response);
-					$.post('./controllers/ajax.cfc?method=search',
-					 	{
-							officialsString: officials
-						}
-					)
-					.done((data) => {
-						let jData = JSON.parse(data);
-						document.getElementById('displayOfficials').innerHTML = "";
-						jData["OFFICIALSARRAY"].forEach(function(official) {
-							makeDisplayTemplate(official);
-						});
-					});
-				} else if (searchType === "elections") {
-					let elections = JSON.stringify(response);
-					$.get('./controllers/ajax.cfc?method=default', {
-						electionsString: elections
-					}).done((electionsArray) => {});
-				}
-			})
-	})
+							{
 
+							address: userAddress,
+							search: searchType
+							}
 
+	)
+		.done((data) => {
+			console.log(data);
+			$('.jumbotron').append(data);  //This appending works, however when I use the action=main.search url, the api returns an error of address. The same function
+																		//in the default action does not cause this error.
+			/*if (searchType === 'officials') {
+				let jData = JSON.parse(data);
+				$('#displayOfficials').html('');
+				jData['OFFICIALSARRAY'].forEach(function(official) {
+					displayOfficials(official);
+				});
+			}*/
+		});
+	});
 });
 
-function makeDisplayTemplate(data) {
-	const officialsTmpl = $.templates("#officialsTmpl");
+function displayOfficials(data) {
+	const officialsTmpl = $.templates('#officialsTmpl');
 	const html = officialsTmpl.render(data);
-	$('#displayOfficials').append(html);
+	$('.jumbotron').append(html);
 }
 
-function initAutocomplete() {
+function displayElections(data) {
+	const electionsTmpl = $.templates('#electionsTmpl');
+	const html = electionsTmpl.render([data], getArray);
+	$('.jumbotron').append(html);
+}
+
+function initAutocomplete() {  //for google autocomplte address function
 	let input = document.getElementById('addressToSearch');
 	let autoComplete = new google.maps.places.Autocomplete(input);
 }
