@@ -1,5 +1,5 @@
+<cfset request.layout=false>
 <cfoutput>
-	<div id="displayOfficials"></div>
 	<cfif isDefined("rc.officialsArray") and isArray(rc.officialsArray)>
 		<cfloop from="1" to="#arrayLen(rc.officialsArray)#" index="i">
 			<cfoutput>

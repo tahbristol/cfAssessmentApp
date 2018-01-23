@@ -11,9 +11,7 @@
 					</div>
 				</header>
 				<div class="clearfix"></div>
-				<main>
 					#body#
-				</main>
 			</div>
 		</div>
 	</div>

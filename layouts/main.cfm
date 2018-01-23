@@ -17,42 +17,9 @@
 		<cfoutput>
 			#body#
 		</cfoutput>
-		<div id="displayOfficials"></div>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/jsrender/0.9.90/jsrender.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.js"></script>
 		<script src="./js/main.js"></script>
-		<script id="officialsTmpl" type="text/x-jsrender">
-			<div id="body" class="container card">
-				<div class="row">
-					<div class="col-sm-12">
-						<div class="thumbnail">
-							{{if photo}}
-								<img src="{{:photo}}" alt="photo of {{:name}}"/>
-							{{/if}}
-							<div class="caption">
-								<h3>
-									{{:name}}</h3>
-								<p>
-									{{:position}}</p>
-								<p>
-									{{:party}}</p>
-								<p>
-									{{:email}}</p>
-								<p>
-									{{:phone}}</p>
-								<a href="{{:website}}" target="_blank">Website</a>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</script>
-
-
-
 		<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCZWJBrVt-tKatWxvN0S2fiihF2H4oRT20&libraries=places&callback=initAutocomplete" async="async" defer="defer"></script>
 	</body>
 </html>

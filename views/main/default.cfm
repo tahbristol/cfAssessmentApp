@@ -31,6 +31,6 @@
 			</div>
 			<button class="btn btn-primary" type="submit" value="address">Search</button>
 		</form>
+		<div id="displayData"></div>
 	</main>
-
-	</cfoutput>
+</cfoutput>
