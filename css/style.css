@@ -1,10 +1,38 @@
 html {
 	height: 100%;
+
+
+}
+
+#spinner {
+  height:150px;
+	width: 150px;
+  margin-left: auto;
+	margin-right: auto;
+}
+
+#containSpinner {
+
+	height: 200px;
+	/*position:absolute;
+	left:515px;
+	top:150px;*/
+
+
+}
+
+div.container.row {
+  width: 400px;
+}
+
+.dimmer {
+	opacity: .5;
 }
 
 body {
 	font-family: 'Roboto', sans-serif;
 	position: relative;
+
 }
 
 header, .inner {
@@ -77,6 +105,8 @@ main.jumbotron, #displayOfficials {
 	margin-left: auto;
 	margin-right: auto;
 	border-radius: 10px;
+
+
 }
 
 main h4 {

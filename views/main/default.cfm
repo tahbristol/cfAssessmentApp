@@ -33,4 +33,13 @@
 		</form>
 		<div id="displayData"></div>
 	</main>
+	<div class="container">
+		<div class="row>">
+			<div class="col-sm-12">
+				<div id="containSpinner">
+				<img id="spinner" src="./images/Spinner-1s-200px.gif" />
+			</div>
+			</div>
+		</div>
+	</div>
 </cfoutput>

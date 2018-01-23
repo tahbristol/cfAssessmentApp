@@ -1,4 +1,6 @@
+
 $(document).ready(function() {
+  $('#containSpinner').hide();
 	$('form').on('submit', function(e) {
 		let searchType;
 		let userAddress = $('#addressToSearch').val();
@@ -14,12 +16,20 @@ $(document).ready(function() {
 				search: searchType
 			})
 			.done((data) => {
-				console.log(data);
+
 				$('#displayData').html(data);
 			});
 	});
 });
 
+$(document).ajaxStart(function(){
+	$('#displayData').html("");
+	$('#containSpinner').show();
+});
+
+$(document).ajaxComplete(function(){
+	$('#containSpinner').hide();
+})
 function initAutocomplete() { //for google autocomplte address function
 	let input = document.getElementById('addressToSearch');
 	let autoComplete = new google.maps.places.Autocomplete(input);
