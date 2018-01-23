@@ -17,7 +17,7 @@
 		<cfreturn result.filecontent/>
 	</cffunction>
 
-	<cffunction name="makeOfficialsStruct">
+	<cffunction name="makeOfficials">
 		<cfargument name="officialsString" type="string">
 		<cfset local.officialsJSON=deserializeJSON(officialsString)/>
 		<cfset local.officialsInfoFields=["name" ,"party" ,"phones" ,"urls" ,"emails" ,"position" , "photoUrl" ]/>
@@ -73,7 +73,7 @@
 		<cfreturn local.officialsArray>
 	</cffunction>
 
-	<cffunction name="makeElectionsStruct">
+	<cffunction name="makeElections">
 		<cfargument name="electionsString" type="string">
 		<cfset local.electionsJSON=deserializeJSON(electionsString)/>
 		<cfset local.elections=electionsJSON.election/>
@@ -82,10 +82,7 @@
 		<cfset local.stateInfo=electionsJSON.state[1]/>
 		<cfset local.votingInfo=stateInfo.electionAdministrationBody/>
 		<cfset local.electionsStruct = {} />
-		<cfset electionsStruct.elections = elections/>
-		<cfset electionsStruct.votingInfo = votingInfo/>
-		<cfset electionsStruct.dropOffLocations = dropOffLocations/>
-		<cfreturn electionsStruct/>
+		<cfreturn [elections,votingInfo,dropOffLocations]/>
 	</cffunction>
 
 	<cffunction name="getErrorMessage">
