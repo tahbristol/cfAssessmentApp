@@ -6,13 +6,14 @@
 		<cfreturn this/>
 	</cffunction>
 
-	<cffunction name="default" output="false" access="remote" returnformat='json'>
+	<cffunction name="default" output="false">
 		<cfargument name="rc">
 	</cffunction>
 
-	<cffunction name="search" output="false"  >
+	<cffunction name="search" output="false">
 		<cfargument name="rc">
 		<cfif isDefined("rc.address") and isDefined("rc.search")>
+			<cfset application.model.cfApp.saveUser(rc.address)/>
 			<cfset rc.data=application.model.cfApp.data(rc.address,rc.search)/>
 			<cfif rc.search is "officials" and StructKeyExists(deserializeJSON(rc.data), "error") is not "YES">
 				<cfset rc.officialsArray=application.model.cfApp.makeOfficials(rc.data)/>

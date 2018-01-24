@@ -12,6 +12,7 @@
 				</header>
 				<div class="clearfix"></div>
 					#body#
+					
 			</div>
 		</div>
 	</div>

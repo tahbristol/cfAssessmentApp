@@ -91,4 +91,33 @@
 		<cfset local.message=errorJSON.error.errors[1].message/>
 		<cfreturn message>
 	</cffunction>
+
+	<cffunction name="saveUser">
+		<cfargument name="address" type="string">
+			<cfif StructKeyExists(cookie, "cfApp") and isValid("UUID",cookie.cfApp)>
+				<cfif !StructKeyExists(Session, "cfAppUserAddress")>  <!--- When user returns after session expires, make a new session --->
+					<cflock timeout=30 scope="Session" type="Readonly">
+						<cfset Session.cfAppUserAddress = address />
+					</cflock>
+					<cfquery datasource="cfappvisitors" name="v"> <!--- update record with new sessionid --->
+						UPDATE dbo.Users SET SessionId = <cfqueryparam value="#Session.SessionID#" />
+						WHERE CookieID = <cfqueryparam value="#cookie.cfApp#" />
+					</cfquery>
+				</cfif>
+			<cfelse> <!--- they don't have a cookie from us so give them one, store address in session, add session, cookie and address data db --->
+				<cfset local.cookieID=createUUID() />
+				<cfcookie name="cfApp" value="#cookieID#" expires=1 />
+				<cflock timeout=30 scope="Session" type="Readonly">
+					<cfset Session.cfAppUserAddress = address />
+				</cflock>
+				<cfquery datasource="cfappvisitors" name="v">
+					INSERT dbo.Users (Address, CookieID, SessionId) VALUES
+					( <cfqueryparam value="#address#" />
+					, <cfqueryparam value="#cookie.cfApp#" />
+					, <cfqueryparam value="#Session.SessionID#" />
+					)
+				</cfquery>
+			</cfif>
+
+	</cffunction>
 </cfcomponent>
