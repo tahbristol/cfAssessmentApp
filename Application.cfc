@@ -11,9 +11,7 @@
 	</cffunction>
 
 	<cffunction name="setupSession">
-
 		<cfset application.model.cfApp.saveOrIssueCookie("cfApp") />
-	
 	</cffunction>
 
 </cfcomponent>

@@ -21,9 +21,18 @@ $(document).ready(function() {
 				$('#displayData').html(data);
 			});
 	});
+
+
+  $('#clearSession').on('click', function(e) {
+     e.preventDefault();
+      $.post('/cfAssessmentApp/index.cfm?action=main.clearSession')
+      .done((data) => {
+        $('#displayData').prepend(data)
+      })
+  })
 });
 
-$(document).ajaxStart(function(){
+$(document).ajaxStart(function() {
 	$('#displayData').html("");
 	$('#containSpinner').show();
 });
@@ -31,6 +40,9 @@ $(document).ajaxStart(function(){
 $(document).ajaxComplete(function(){
 	$('#containSpinner').hide();
 })
+
+
+
 function initAutocomplete() { //for google autocomplte address function
 	let input = document.getElementById('addressToSearch');
 	let autoComplete = new google.maps.places.Autocomplete(input);

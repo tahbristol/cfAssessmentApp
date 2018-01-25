@@ -26,4 +26,10 @@
 		</cfif>
 	</cffunction>
 
+	<cffunction name="clearSession">
+		<cfargument name="rc">
+			<cfset application.model.cfApp.clearSessionAndCookie />
+			<cfreturn >
+	</cffunction>
+
 </cfcomponent>

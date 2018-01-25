@@ -138,7 +138,7 @@
 		<cfset local.cookieID=createUUID()/>
 		<cfcookie name="#cookieKey#" value="#cookieID#" expires=1/>
 		<cflock timeout=30 scope="Session" type="Readonly">
-			<cfset session.cfUserCookie=cookie["#cookieKey#"]/>
+			<cfset session.cfAppUserCookie=cookie["#cookieKey#"]/>
 		</cflock>
 		<cfquery datasource="cfappvisitors" >
 			INSERT dbo.Users (CookieID) VALUES
@@ -147,5 +147,20 @@
 			)
 		</cfquery>
 	</cffunction>
-	
+
+
+	<cffunction name="clearSessionAndCookie">
+		<!---<cfargument name="Keys" type="array" >
+			<cfloop from="1" to="#arrayLen(keys)#" index="i">
+				<cfif StructKeyExists(session, "#keys[i]#")>
+					<cfset StructDelete(session, "#keys[i]#")/>
+				<cfelseif StructKeyExists(cookie, "#keys[i]#")>
+					<cfset StructDelete(cookie, "#keys[i]#")/>
+				</cfif>
+			</cfloop>--->
+			<cfset StructDelete(session, "cfAppUserAddress")>
+				<cfset StructDelete(session, "cfAppUserCookie")/>
+				<cfset StructDelete(cookie, "cfApp")/>
+	</cffunction>
+
 </cfcomponent>
