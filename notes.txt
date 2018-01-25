@@ -1,0 +1,4 @@
+1/25/18
+	-In the next few days, get familiar with CongressWeb.com/abc and the code base/user interface. Need to start working on pulling share data
+	using the AddThis API. Work on getting data for a particular url.
+	

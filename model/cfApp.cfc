@@ -81,7 +81,7 @@
 		<cfset local.dropOffLocations=arraySlice(electionsJSON.dropOffLocations, 1, 3)/>
 		<cfset local.stateInfo=electionsJSON.state[1]/>
 		<cfset local.votingInfo=stateInfo.electionAdministrationBody/>
-		<cfset local.electionsStruct = {} />
+		<cfset local.electionsStruct={}/>
 		<cfreturn [elections,votingInfo,dropOffLocations]/>
 	</cffunction>
 
@@ -92,32 +92,80 @@
 		<cfreturn message>
 	</cffunction>
 
-	<cffunction name="saveUser">
+	<cffunction name="saveUserAddress">
 		<cfargument name="address" type="string">
-			<cfif StructKeyExists(cookie, "cfApp") and isValid("UUID",cookie.cfApp)>
-				<cfif !StructKeyExists(Session, "cfAppUserAddress")>  <!--- When user returns after session expires, make a new session --->
-					<cflock timeout=30 scope="Session" type="Readonly">
-						<cfset Session.cfAppUserAddress = address />
-					</cflock>
-					<cfquery datasource="cfappvisitors" name="v"> <!--- update record with new sessionid --->
-						UPDATE dbo.Users SET SessionId = <cfqueryparam value="#Session.SessionID#" />
-						WHERE CookieID = <cfqueryparam value="#cookie.cfApp#" />
-					</cfquery>
-				</cfif>
-			<cfelse> <!--- they don't have a cookie from us so give them one, store address in session, add session, cookie and address data db --->
-				<cfset local.cookieID=createUUID() />
-				<cfcookie name="cfApp" value="#cookieID#" expires=1 />
-				<cflock timeout=30 scope="Session" type="Readonly">
-					<cfset Session.cfAppUserAddress = address />
-				</cflock>
-				<cfquery datasource="cfappvisitors" name="v">
-					INSERT dbo.Users (Address, CookieID, SessionId) VALUES
-					( <cfqueryparam value="#address#" />
-					, <cfqueryparam value="#cookie.cfApp#" />
-					, <cfqueryparam value="#Session.SessionID#" />
-					)
-				</cfquery>
+			<cfif !StructKeyExists(cookie, 'cfApp')>
+				<cfset issueCookie("cfApp")/>
 			</cfif>
-
+			<cfif !StructKeyExists(session, "cfAppUserAddress")>
+				<!--- When user returns after session expires, make a new session --->
+					<cfset session.cfAppUserAddress=address/>
+				<cfquery datasource="cfappvisitors" >
+					<!--- update record with new sessionid --->
+					UPDATE dbo.Users SET Address=<cfqueryparam value="#address#"/>
+					WHERE CookieID=<cfqueryparam value="#cookie.cfApp#"/><!----fix this "#cookie.cfApp#" --->
+				</cfquery>
+				<cfelse>
+					<cfquery datasource="cfappvisitors" name="local.userAddress">
+						SELECT Address FROM dbo.Users WHERE CookieID=<cfqueryparam value="#cookie.cfApp#"/>
+					</cfquery>
+					<cfif userAddress.Address neq address and address neq ''>
+						<cfquery datasource="cfappvisitors">
+							UPDATE dbo.Users SET Address=<cfqueryparam value="#address#"/> WHERE CookieID=<cfqueryparam value="#cookie.cfApp#"/>
+						</cfquery>
+						<cfset session.cfAppUserAddress=address/>
+					</cfif>
+			</cfif>
 	</cffunction>
+
+	<cffunction name="saveOrIssueCookie">
+		<cfargument name="cookieKey" type="string">
+		<cfif validCookie("#cookieKey#")>
+			<cfif !StructKeyExists(session, "#cookieKey#")>
+				<cfset session.cfAppUserCookie=cookie["#cookieKey#"]/>
+				<cfquery datasource="cfappvisitors" name="local.user">
+					SELECT Address FROM dbo.Users WHERE CookieID=<cfqueryparam value="#cookie.cfApp#" /><!----fix this "#cookie.cfApp#" --->
+				</cfquery>
+				<cfset session.cfAppUserAddress=user.address />
+			</cfif>
+		<cfelse>
+			<cfset issueCookie(cookieKey)/>
+		</cfif>
+	</cffunction>
+
+	<cffunction name="issueCookie">
+		<cfargument name="cookieKey">
+		<cfset local.cookieID=createUUID()/>
+		<cfcookie name="cfApp" value="#cookieID#" expires=1/>
+		<cflock timeout=30 scope="Session" type="Readonly">
+			<cfset session.cfUserCookie=cookie.cfApp/>
+		</cflock>
+		<cfquery datasource="cfappvisitors" >
+			INSERT dbo.Users ( CookieID) VALUES
+			(
+			<cfqueryparam value="#cookie.cfApp#"/>
+			)
+		</cfquery>
+	</cffunction>
+
+	<cffunction name="validCookie">
+		<cfargument name="cookieName">
+			<cfif StructKeyExists(cookie, "#cookieName#") and isValid("UUID",cookie["#cookieName#"])>
+				<cfreturn true>
+			<cfelse>
+				<cfreturn false>
+			</cfif>
+	</cffunction>
+
+	<cffunction name="sessionActive">
+		<cfargument name="cookieName">
+			<cfif StructKeyExists(session, "#cookie#") and (session["#cookie#"] is cookie["#cookieKey#"]) >
+				<cfreturn true>
+			<cfelse>
+				<cfreturn false>
+			</cfif>
+	</cffunction>
+
+
+
 </cfcomponent>
