@@ -148,19 +148,4 @@
 		</cfquery>
 	</cffunction>
 
-
-	<cffunction name="clearSessionAndCookie">
-		<!---<cfargument name="Keys" type="array" >
-			<cfloop from="1" to="#arrayLen(keys)#" index="i">
-				<cfif StructKeyExists(session, "#keys[i]#")>
-					<cfset StructDelete(session, "#keys[i]#")/>
-				<cfelseif StructKeyExists(cookie, "#keys[i]#")>
-					<cfset StructDelete(cookie, "#keys[i]#")/>
-				</cfif>
-			</cfloop>--->
-			<cfset StructDelete(session, "cfAppUserAddress")>
-				<cfset StructDelete(session, "cfAppUserCookie")/>
-				<cfset StructDelete(cookie, "cfApp")/>
-	</cffunction>
-
 </cfcomponent>

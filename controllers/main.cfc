@@ -28,7 +28,9 @@
 
 	<cffunction name="clearSession">
 		<cfargument name="rc">
-			<cfset application.model.cfApp.clearSessionAndCookie />
+			<cfset StructDelete(session, "cfappUserAddress")>
+				<cfset StructDelete(session, "cfAppUserCookie")/>
+				<cfset StructDelete(cookie, "cfApp")/>
 			<cfreturn >
 	</cffunction>
 

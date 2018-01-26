@@ -30,9 +30,8 @@
 				<small class="form-text text-muted">or upcoming elections.</small>
 			</div>
 			<button class="btn btn-primary" type="submit" value="address">Search</button>
-
 		</form>
-		<button id="clearSession" class="btn btn-warning" type="submit">Clear your Session</button>
+		<button id="clearSession" class="btn btn-warning" type="submit">Don't remember me</button>
 		<div id="displayData"></div>
 	</main>
 	<div class="container">

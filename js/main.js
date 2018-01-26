@@ -10,7 +10,6 @@ $(document).ready(function() {
 
 		} else {
 			searchType = 'officials';
-
 		}
 		e.preventDefault();
 		$.post('/cfAssessmentApp/index.cfm?action=main.search', {
@@ -22,12 +21,12 @@ $(document).ready(function() {
 			});
 	});
 
-
   $('#clearSession').on('click', function(e) {
-     e.preventDefault();
       $.post('/cfAssessmentApp/index.cfm?action=main.clearSession')
       .done((data) => {
         $('#displayData').prepend(data)
+        let clearedDiv = $('#cleared');
+        fadeOutDiv(clearedDiv);
       })
   })
 });
@@ -41,7 +40,9 @@ $(document).ajaxComplete(function(){
 	$('#containSpinner').hide();
 })
 
-
+function fadeOutDiv(div) {
+  $(div).fadeOut(3000);
+}
 
 function initAutocomplete() { //for google autocomplte address function
 	let input = document.getElementById('addressToSearch');
