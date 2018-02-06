@@ -1,4 +1,3 @@
-
 function getShareData(evt) {
 	let d = new Date();
 	let now = d.toJSON();
@@ -31,24 +30,51 @@ function updateDb(data) {
 			shareData: JSON.stringify(data)
 		})
 		.done((response) => {
-		  //do something?
+			//do something?
 		});
 }
 
 
 /**** Count Stats Functions ****/
-function totalCount(){
-	$.post('/cfSharesApp/index.cfm?action=main.totalShares')
-	.done((shareCountRes) => {
-		$('#totalCounts').html(shareCountRes);
-	});
+function rangeCounts(from, to) {
+		$.post('/cfSharesApp/index.cfm?action=main.rangeShares', {
+				fromDate: from.toJSON(),
+				toDate: to.toJSON()
+			})
+			.done((shareCountRes) => {
+				console.log(shareCountRes)
+				$('#output').html(shareCountRes);
+			});
 }
 
 
-/**** Button to get shares ****/
-$('#totalShares').on('click', function(e){
-		totalCount();
-});
+function dayCounts(){
+		$.post('/cfSharesApp/index.cfm?action=main.dayShares')
+			.done((shareCountRes) => {
+				console.log(shareCountRes)
+			});
+}
+
+
+$('form').on('submit', function(e) {
+	let d = new Date();
+	d.setDate(d.getDate() - 7); //setting d to the date 7 days ago
+	let today = new Date();
+	let weekAgo = d;
+	let fromDate = $('#fromDate').val();
+	let toDate = $('#toDate').val();
+	let timeSpan = $('#timeSpan').val();
+
+	if (timeSpan && timeSpan === 'week') {
+		rangeCounts(weekAgo,today);
+	}
+	else if (timeSpan && timeSpan === 'day') {
+		dayCounts();
+	} else {
+
+	}
+	e.preventDefault();
+})
 
 /**** On addthis share menu event ****/
 addthis.addEventListener('addthis.menu.share', getShareData);

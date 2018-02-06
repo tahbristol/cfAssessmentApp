@@ -16,17 +16,21 @@
 		<cfreturn />
 	</cffunction>
 
-	<cffunction name="totalShares" output="false">
+	<cffunction name="rangeShares">
 		<cfargument name="rc">
-		<cfset rc.serviceCount = application.model.cfShares.getTotalShares()/>
+		<cfset rc.rangeShares=application.model.cfShares.getRangeShares(rc.fromDate, rc.toDate)/>
 	</cffunction>
 
- 	<cffunction name="countsPerWeek">
-		<cfargument name="rc">
-	</cffunction>
 
-	<cffunction name="countsPerDay">
+		<cffunction name="weekShares">
+			<cfargument name="rc">
+				<cfset rc.serviceCount=application.model.cfShares.getRangeShares(rc.weekAgo)/>
+		</cffunction>
+
+
+	<cffunction name="dayShares" output="false">
 		<cfargument name="rc">
+		<cfset rc.serviceCount=application.model.cfShares.getDayShares()/>
 	</cffunction>
 
 </cfcomponent>

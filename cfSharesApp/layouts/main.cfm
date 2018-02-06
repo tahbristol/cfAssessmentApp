@@ -22,17 +22,29 @@
 			</div>
 
 			<div class="row">
-				<div class="col-sm-6">
+				<div class="col-sm-12">
 					<div id="totalCounts"></div>
-					<button id="totalShares" class="btn btn-primary">Total Shares</button>
-				</div>
-				<div class="col-sm-6">
-					<div id="dayCounts"></div>
-					<button id="totalShares" class="btn btn-primary">Day Shares</button>
+
+					<form id="getShares">
+						<label>From:
+							<input type="text" id="fromDate"/>
+						</label>
+						<label>To:
+							<input type="text" id="toDate"/>
+						</label>
+						<input id="totalShares" class="btn btn-primary" type="submit" value="Get Shares">
+					</form>
+					<p>Or</p>
+					<select id="timeSpan">
+						<option value="day">Past 24 hrs</option>
+						<option value="week">Past Week</option>
+					</select>
 				</div>
 			</div>
 		</div>
+		<div id="output">
 
+		</div>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
