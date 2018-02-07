@@ -1,3 +1,36 @@
+$(document).ready(function(){
+
+	$('form').on('submit', function(e) {
+		let d = new Date();
+		let today = new Date();
+		let fromDate = $('#fromDate').val();
+		let toDate = $('#toDate').val();
+		let timeSpan = $('#timeSpan').val();
+console.log(fromDate + " " + toDate);
+
+		if (timeSpan && timeSpan === 'week' && !fromDate && !toDate) {
+			console.log("rangeCounts(weekAgo, today)");
+			d.setDate(d.getDate() - 7);//setting d to the date 7 days ago
+			let weekAgo = d;
+			rangeCounts(weekAgo,today);
+		}
+		else if (timeSpan && timeSpan === 'day' && !fromDate && !toDate) { //today, not the last 24 hours
+			d.setDate(d.getDate() + 1);
+			let dayAhead = d;
+
+			rangeCounts(today,dayAhead);
+		}
+		else {
+			console.log("from and to")
+			fromDate = new Date($('#fromDate').val());
+			toDate = new Date($('#toDate').val());
+			rangeCounts(fromDate,toDate);
+		}
+
+		e.preventDefault();
+	});
+})
+
 function getShareData(evt) {
 	let d = new Date();
 	let now = d.toJSON();
@@ -25,6 +58,7 @@ function parseShareData(shareData, timestamp) {
 	updateDb(parsedData);
 }
 
+
 function updateDb(data) {
 	$.post('/cfSharesApp/index.cfm?action=main.updateShares', {
 			shareData: JSON.stringify(data)
@@ -38,8 +72,8 @@ function updateDb(data) {
 /**** Count Stats Functions ****/
 function rangeCounts(from, to) {
 		$.post('/cfSharesApp/index.cfm?action=main.rangeShares', {
-				fromDate: from.toJSON(),
-				toDate: to.toJSON()
+				fromDate: from.toJSON().split("T")[0],
+				toDate: to.toJSON().split("T")[0]
 			})
 			.done((shareCountRes) => {
 				console.log(shareCountRes)
@@ -48,33 +82,7 @@ function rangeCounts(from, to) {
 }
 
 
-function dayCounts(){
-		$.post('/cfSharesApp/index.cfm?action=main.dayShares')
-			.done((shareCountRes) => {
-				console.log(shareCountRes)
-			});
-}
 
-
-$('form').on('submit', function(e) {
-	let d = new Date();
-	d.setDate(d.getDate() - 7); //setting d to the date 7 days ago
-	let today = new Date();
-	let weekAgo = d;
-	let fromDate = $('#fromDate').val();
-	let toDate = $('#toDate').val();
-	let timeSpan = $('#timeSpan').val();
-
-	if (timeSpan && timeSpan === 'week') {
-		rangeCounts(weekAgo,today);
-	}
-	else if (timeSpan && timeSpan === 'day') {
-		dayCounts();
-	} else {
-
-	}
-	e.preventDefault();
-})
 
 /**** On addthis share menu event ****/
 addthis.addEventListener('addthis.menu.share', getShareData);

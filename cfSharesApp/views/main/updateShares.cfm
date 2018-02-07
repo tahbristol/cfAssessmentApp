@@ -1,4 +1,4 @@
 <cfoutput>
-   <h1>Shares</h1>
+	<h1>Shares</h1>
 	<cfdump var="#rc#"/>
 </cfoutput>

@@ -14,6 +14,7 @@
 		<style></style>
 	</head>
 	<body>
+
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-12">
@@ -34,16 +35,18 @@
 						</label>
 						<input id="totalShares" class="btn btn-primary" type="submit" value="Get Shares">
 					</form>
+
 					<p>Or</p>
+
 					<select id="timeSpan">
-						<option value="day">Past 24 hrs</option>
-						<option value="week">Past Week</option>
+						<option value="day">Today</option>
+						<option value="week">Last 7 Days</option>
 					</select>
 				</div>
 			</div>
 		</div>
-		<div id="output">
 
+		<div id="output">
 		</div>
 
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>

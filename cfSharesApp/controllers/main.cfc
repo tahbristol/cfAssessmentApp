@@ -24,7 +24,7 @@
 
 		<cffunction name="weekShares">
 			<cfargument name="rc">
-				<cfset rc.serviceCount=application.model.cfShares.getRangeShares(rc.weekAgo)/>
+			<cfset rc.serviceCount=application.model.cfShares.getRangeShares(rc.weekAgo)/>
 		</cffunction>
 
 
