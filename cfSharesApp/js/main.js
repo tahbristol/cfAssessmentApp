@@ -91,4 +91,6 @@ addthis.addEventListener('addthis.menu.share', getShareData);
 	3. Call cfc to update db -done
 	4. Get url from shareData.url
 	5. Scope the queries to url(s) once inside the admin
+	6. Display
+	7. Automatic data update on time frame change
 	*/
