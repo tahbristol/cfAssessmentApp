@@ -84,8 +84,11 @@ function rangeCounts(from, to) {
 /**** On addthis share menu event ****/
 addthis.addEventListener('addthis.menu.share', getShareData);
 //addthis.addEventListener('addthis.user.clickback', addthisClick); Tracks if a visitor came from a previously shared link.
-/*
+/* ToDo
 	1. parse url for siteID and lettergroupID
-	2. Timestamp
-	3. Call cfc to update db
+	    a. Regex test
+	2. Timestamp -done
+	3. Call cfc to update db -done
+	4. Get url from shareData.url
+	5. Scope the queries to url(s) once inside the admin
 	*/
