@@ -20,25 +20,12 @@
 		</cfquery>
 	</cffunction>
 
-	<cffunction name="getDayShares">
-		<cfset local.services = ['facebook', 'twitter', 'linkedin'] />
-		<cfset local.totalCounts = {} />
-		<cfloop from="1" to="#arrayLen(services)#" index="i" >
-			<cfquery datasource="TestShareData" name="local.shareCount">
-				SELECT COUNT(*) FROM dbo.shares WHERE ServiceName=  <cfqueryparam value="#services[i]#"/>
-			</cfquery>
-			<cfset totalCounts["#services[i]#"] = shareCount />
-		</cfloop>
-		<cfreturn totalCounts />
-	</cffunction>
 
 	<cffunction name="getRangeShares">
 		<cfargument name="fromDate">
 		<cfargument name="toDate">
-			<cfset local.services = ['facebook', 'twitter', 'linkedin'] />
 			<cfset local.totalCounts = {} />
 			<cfset rc.results = [] />
-			<!---<cfloop from="1" to="#arrayLen(services)#" index="i" >--->
 				<cfquery datasource="TestShareData" name="local.rangeShareCount">
 					SELECT COUNT(*) AS 'Total Shares',
 						ServiceName
@@ -46,11 +33,9 @@
 					WHERE ShareTime
 					BETWEEN <cfqueryparam value="#fromDate#"/>
 					AND <cfqueryparam value="#toDate#"/>
-					<!---AND ServiceName = <cfqueryparam value="#services[i]#"/>--->
-					GROUP BY ServiceName       <!--- Need to work on this query, not quite what I want --->
+					GROUP BY ServiceName
 				</cfquery>
 				<cfset ArrayAppend(rc.results, rangeShareCount) />
-			<!---</cfloop>--->
 		<cfreturn rc.results />
 	</cffunction>
 
