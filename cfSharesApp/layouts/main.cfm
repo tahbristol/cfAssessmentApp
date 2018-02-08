@@ -24,8 +24,8 @@
 
 			<div class="row">
 				<div class="col-sm-12">
-					<div id="totalCounts"></div>
 
+					<div id="totalCounts"></div>
 					<form id="getShares">
 						<label>From:
 							<input type="text" id="fromDate"/>
@@ -51,28 +51,18 @@
 					<li><a  href="">Summary</a></li>
 					<li><a href="">Recipients</a></li>
 					<li><a href="">Advocates</a></li>
-					<li><a class="active" href="">Shares</a></li>
+					<li><a class="active" href="">Sharing</a></li>
 				</ul>
 			</div>
 
 			<div class="clear-fix"></div>
+
 			<div class="tabContent">
 				<div class="container">
 					<div class="row">
-						<div class="col-sm-12" style="height:200px border:1px solid black;">
-					</div>
-					</div>
-					<div class="row">
-						<div class="col-sm-12" style="height:200px; border:1px solid black;">
-						</div>
-					</div>
-					<div class="row">
 						<div class="col-sm-12">
 							<div class="containter">
-								<div class="row statsContainer">
-
-								</div>
-
+								<div class="row statsContainer"></div>
 							</div>
 						</div>
 					</div>
