@@ -42,13 +42,42 @@
 						<option value="day">Today</option>
 						<option value="week">Last 7 Days</option>
 					</select>
+
 				</div>
 			</div>
 		</div>
+			<div class="sharesData">
+				<ul class="shareTabNav">
+					<li><a  href="">Summary</a></li>
+					<li><a href="">Recipients</a></li>
+					<li><a href="">Advocates</a></li>
+					<li><a class="active" href="">Shares</a></li>
+				</ul>
+			</div>
 
-		<div id="output">
-		</div>
+			<div class="clear-fix"></div>
+			<div class="tabContent">
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-12" style="height:200px border:1px solid black;">
+					</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12" style="height:200px; border:1px solid black;">
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="containter">
+								<div class="row statsContainer">
 
+								</div>
+
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5a66447a69502e61"></script>

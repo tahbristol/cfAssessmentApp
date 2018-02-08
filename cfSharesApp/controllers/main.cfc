@@ -18,15 +18,13 @@
 
 	<cffunction name="rangeShares">
 		<cfargument name="rc">
-		<cfset rc.rangeShares=application.model.cfShares.getRangeShares(rc.fromDate, rc.toDate)/>
+		<cfset rc.rangeShares=application.model.cfShares.getRangeShares(rc.fromDate, rc.toDate, rc.siteId, rc.lettergroupId)/>
 	</cffunction>
-
 
 		<cffunction name="weekShares">
 			<cfargument name="rc">
 			<cfset rc.serviceCount=application.model.cfShares.getRangeShares(rc.weekAgo)/>
 		</cffunction>
-
 
 	<cffunction name="dayShares" output="false">
 		<cfargument name="rc">
