@@ -35,6 +35,7 @@ $(document).ready(function(){
 function getShareData(evt) {
 	let d = new Date();
 	let now = d.toJSON();
+	console.log(now);
 	parseShareData(evt.data, now);
 }
 
