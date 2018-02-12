@@ -13,6 +13,10 @@
 .col-sm-3 h3 {
 	font-weight: 600;
 }
+
+.col-sm-3 {
+	margin-top: 50px;
+}
 #facebookCounts h3 {
 	color: #3B5998;
 }

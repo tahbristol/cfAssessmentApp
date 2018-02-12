@@ -11,37 +11,58 @@
 
 <cfif StructCount(#rc.rangeShares#)>
 	<cfoutput>
-		<cfchart format="png" scalefrom="0" scaleto="8" width="800">
+		<cfchart format="png"
+			scalefrom="0"
+
+			width="900"
+			show3d="no"
+			tipStyle="none"
+			showMarkers="no"
+			foregroundcolor="gray"
+			seriesplacement="cluster"
+			>
+
 			<cfloop collection="#rc.rangeShares#" item="service">
 				<cfset data=application.model.cfShares.graphData(rc.fromDate, rc.toDate, '#service#')/>
+
 				<cfchartseries type="line" serieslabel="#service#" seriesColor="#serviceColors[service]#" >
-					<cfloop from="1" to="#data.recordCount#" index="i">
-					<cfset date = "#data["THEMONTH"][i]#/#data["THEDAY"][i]#/#data["THEYEAR"][i]#"/>
-						<cfchartdata item="#date#" value="#data["COUNTs"][i]#">
+					<cfloop from="#rc.fromDate#" to="#rc.toDate#" index="date">
+						<cfif structKeyExists(data, dateformat(date, "m/d/yyyy")) >
+							<cfchartdata item = "#dateformat(date, "m/d/yyyy")#" value = "#data[dateformat(date, "m/d/yyyy")]#">
+						<cfelse>
+							<cfchartdata item="#dateformat(date, "m/d/yyyy")#" value="0" >
+						</cfif>
 					</cfloop>
 				</cfchartseries>
+
 			</cfloop>
+
 		</cfchart><br><br>
 	</cfoutput>
 
-	<cfloop collection="#rc.rangeShares#" item="service">
+	<cfset serviceArray = structSort(rc.rangeShares, 'numeric', 'desc') />
+
+	<cfloop from="1" to="#arraylen(serviceArray)#" index="i">
 		<cfoutput>
-			<div class="col-sm-3" id="#service#Counts">
-				<h4>#htmleditformat(service)#</h4 >
-				<h3>#htmleditformat(rc.rangeShares[service])#</h3>
+			<div class="col-sm-3" id="#serviceArray[i]#Counts">
+				<h4>#htmleditformat(serviceArray[i])#</h4 >
+				<h3>#htmleditformat(rc.rangeShares[serviceArray[i]])#</h3>
 			</div>
 		</cfoutput>
 	</cfloop>
+
 <cfelse>
+
 	<cfoutput>
-		<h4>No Current Share Data</h4>
+		<h4>No New Share Data</h4>
 	</cfoutput>
+
 </cfif>
 
 
 <!---ToDo
-	1. Date output in order
+	1. Date output in order---------------------DONE
 	2. Struct sort for service countsArray
 	3. Color random for services without pre-defined Color
-	4. plan for days with zero data
+	4. plan for days with zero data--------------DONE
 	--->

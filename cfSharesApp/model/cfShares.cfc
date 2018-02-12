@@ -63,19 +63,24 @@
 				, YEAR(ShareTime) AS theyear
 			FROM dbo.shares
 			WHERE ServiceName = <cfqueryparam value="#service#">
-				AND ShareTime BETWEEN <cfqueryparam value="#fromDate#"/>
+				AND ShareTime BETWEEN <cfqueryparam value="#fromDate#"/> <!---add siteId and lettergroupId --->
 					AND <cfqueryparam value="#toDate#"/>
 			GROUP BY
 				YEAR(ShareTime)
 				, MONTH(ShareTime)
 				, DAY(ShareTime)
 			ORDER BY
-				MONTH(ShareTime)
+				YEAR(ShareTime)
+				, MONTH(ShareTime)
 				, DAY(ShareTime)
-				, YEAR(ShareTime)
 			</cfquery>
 
-		<cfreturn graphCounts>
+			<cfset local.graphCountsStruct = {} />
+			<cfloop from="1" to="#graphCounts.recordCount#" index="i">
+				<cfset graphCountsStruct["#graphCounts["THEMONTH"][i]#/#graphCounts["THEDAY"][i]#/#graphCounts["THEYEAR"][i]#"] = graphCounts["COUNTS"][i] />
+			</cfloop>
+
+		<cfreturn graphCountsStruct>
 	</cffunction>
 
 </cfcomponent>
