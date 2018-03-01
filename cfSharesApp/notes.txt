@@ -1,0 +1,259 @@
+Addthis api
+
+  Requests and its JSON result
+
+	1. https://api.addthis.com/analytics/1.0/pub/shares/url.json?service=twitter&period=day&pubid=
+	   shares per url scoped to service
+
+	[
+	{
+			"shares": 3,
+			"url": "http://www.congressweb.com/abc/1"
+	},
+	{
+			"shares": 2,
+			"url": "http://www.congressweb.com/abc/2"
+	},
+	{
+			"shares": 2,
+			"url": "http://www.congressweb.com/abc/3"
+	},
+	{
+			"shares": 1,
+			"url": "http://www.congressweb.com/abc/4"
+	},
+	{
+			"shares": 1,
+			"url": "http://www.congressweb.com/abc/5"
+	}
+	]
+
+
+
+	2. https://api.addthis.com/analytics/1.0/pub/shares/service.json?period=week&pubid=
+				shares per service scoped to period. This is for a single url, the default url of the account
+				which in this case is http://www.congressweb.com
+	[
+	{
+			"shares": 495,
+			"service": "facebook"
+	},
+	{
+			"shares": 195,
+			"service": "twitter"
+	},
+	{
+			"shares": 28,
+			"service": "google_plusone_share"
+	},
+	{
+			"shares": 6,
+			"service": "pinterest"
+	},
+	{
+			"shares": 4,
+			"service": "linkedin"
+	},
+	{
+			"shares": 3,
+			"service": "tumblr"
+	},
+	{
+			"shares": 2,
+			"service": "email"
+	},
+	{
+			"shares": 1,
+			"service": "link"
+	}
+]
+
+	3. https://api.addthis.com/analytics/1.0/pub/shares/service.json?period=week&url=https%3A%2F%2Fwww.tahbristol.com
+
+	 	this is the data we want. Shares per service grouped by a particular period and scoped to a particular url.
+
+
+  4. http://public.newsharecounts.com/count.json?url=tahbristol.com
+
+			{
+			"url": "http://tahbristol.com",
+			"count": 0,
+			"tracked": 0,
+			"historic": 0
+		}
+
+
+       This twitter count api replacement(more on this in entry 7) only gives total counts.
+			 NOTE: Twitter api has 3 search tiers. The standard does not give share/tweet counts. But the premium does and by time period as well.
+
+	  5. http://graph.facebook.com/?id=http://www.tahbristol.com
+
+				 Found this online. Need to look more into Facebook Graph API but so far it still gives only a total.
+
+		{
+	"share": {
+			"comment_count": 0,
+			"share_count": 0
+	},
+	"id": "http://www.tahbristol.com"
+}
+
+
+     6. https://data-api.twitter.com/insights/engagement/historical
+
+          This gives counts and counts per time period. However, it searches by tweet id supplied in the post header. I need to look into this more.
+
+
+
+		 7. "https://api.twitter.com/1.1/tweets/search/30day/
+
+          Twitter discontinued making its tweet counts publically available, at least easily. There are third-party modules and apps to do it, but it requires a premium
+					search account. The standard tier doesn't allow for specifying for particular urls so far that I've seen.
+			    This is the premium search tier of the twitter api. It returns total counts per time period and can be scoped to a particular url supplied as a query param.
+					We have to apply for access to the premium tier. I'm in the process of applying for the sandbox version of this, which has a request limit of 30/min while the paid
+					version is 60/min. The premium tier allows for more query params and a longer query string.
+
+					{
+			  "results": [
+			    { "timePeriod": "201701010000", "count": 32 },
+			    { "timePeriod": "201701020000", "count": 45 },
+			    { "timePeriod": "201701030000", "count": 57 },
+			    { "timePeriod": "201701040000", "count": 123 },
+			    { "timePeriod": "201701050000", "count": 134 },
+			    { "timePeriod": "201701060000", "count": 120 }
+									]
+					}
+
+			8. https://api.twitter.com/1.1/search/tweets.json?q=http%3A%2F%2Fwww.congressweb.com%2Fawi%2F196%3Fframed_parent_url_id%3D3DB21594-FE8A-71E1-4EE5EA73D071F235&result_type=recent&count=100
+
+				This is using the twitter standard search. Returns each tweet object containing timestamp, tweet_id, user..etc. 100 is the limit of returns so the last 100 tweets.
+				From Jan 26th to Jan 31 this search returns  ~100 tweet events. This is at least. AddThis returns 103 shares via twitter for the past week for this same url. Seems
+				like the premium search is the way to go. It gives a 30 day history, gives counts daily, hourly and by the minute. The search query is double the length.
+
+
+				"statuses": [
+        {
+            "created_at": "Wed Jan 31 23:44:05 +0000 2018",
+            "id": 958848391949246464,
+            "id_str": "958848391949246464",
+            "text": "Ask the US Government to Deny an Import Permit for a Black Rhino Trophy https://t.co/ySdxSA6hQK",
+            "truncated": false,
+            "entities": {
+                "hashtags": [],
+                "symbols": [],
+                "user_mentions": [],
+                "urls": [
+                    {
+                        "url": "https://t.co/ySdxSA6hQK",
+                        "expanded_url": "http://www.congressweb.com/awi/196?framed_parent_url_id=3DB21594-FE8A-71E1-4EE5EA73D071F235",
+                        "display_url": "congressweb.com/awi/196?framed…",
+                        "indices": [
+                            72,
+                            95
+                        ]
+                    }
+                ]
+            },
+            "metadata": {
+                "iso_language_code": "en",
+                "result_type": "recent"
+            },
+            "source": "<a href=\"http://twitter.com\" rel=\"nofollow\">Twitter Web Client</a>",
+            "in_reply_to_status_id": null,
+            "in_reply_to_status_id_str": null,
+            "in_reply_to_user_id": null,
+            "in_reply_to_user_id_str": null,
+            "in_reply_to_screen_name": null,
+            "user": {
+                "id": 285252174,
+                "id_str": "285252174",
+                "name": "Stephanie",
+                "screen_name": "StephanieMagee",
+                "location": "CT.",
+                "description": "Animal rights activist/vegan/proud Mama of 7 rescue dogs.",
+                "url": null,
+                "entities": {
+                    "description": {
+                        "urls": []
+                    }
+                },
+                "protected": false,
+                "followers_count": 167,
+                "friends_count": 156,
+                "listed_count": 19,
+                "created_at": "Wed Apr 20 20:24:16 +0000 2011",
+                "favourites_count": 28,
+                "utc_offset": -18000,
+                "time_zone": "Quito",
+                "geo_enabled": false,
+                "verified": false,
+                "statuses_count": 18131,
+                "lang": "en",
+                "contributors_enabled": false,
+                "is_translator": false,
+                "is_translation_enabled": false,
+                "profile_background_color": "7E3265",
+                "profile_background_image_url": "http://pbs.twimg.com/profile_background_images/671325933/7a3626503e29bc659b673e257c346833.png",
+                "profile_background_image_url_https": "https://pbs.twimg.com/profile_background_images/671325933/7a3626503e29bc659b673e257c346833.png",
+                "profile_background_tile": true,
+                "profile_image_url": "http://pbs.twimg.com/profile_images/1346809720/tw_7316443_1305025766_normal.jpg",
+                "profile_image_url_https": "https://pbs.twimg.com/profile_images/1346809720/tw_7316443_1305025766_normal.jpg",
+                "profile_banner_url": "https://pbs.twimg.com/profile_banners/285252174/1348807309",
+                "profile_link_color": "490039",
+                "profile_sidebar_border_color": "90E18C",
+                "profile_sidebar_fill_color": "99BB94",
+                "profile_text_color": "48734F",
+                "profile_use_background_image": true,
+                "has_extended_profile": false,
+                "default_profile": false,
+                "default_profile_image": false,
+                "following": false,
+                "follow_request_sent": false,
+                "notifications": false,
+                "translator_type": "none"
+            },
+            "geo": null,
+            "coordinates": null,
+            "place": null,
+            "contributors": null,
+            "is_quote_status": false,
+            "retweet_count": 0,
+            "favorite_count": 1,
+            "favorited": false,
+            "retweeted": false,
+            "possibly_sensitive": false,
+            "lang": "en"
+        }]
+
+    8. https://graph.facebook.com?id=http://www.congressweb.com/awi/196?framed_parent_url_id=3DB21594-FE8A-71E1-4EE5EA73D071F235&fields=og_object{engagement}
+
+        Facebooks graph api.  Only total newsharecounts
+
+        {
+    "og_object": {
+        "engagement": {
+            "count": 5041,
+            "social_sentence": "5K people like this."
+        },
+        "id": "1442121842571708"
+    },
+    "id": "http://www.congressweb.com/awi/196?framed_parent_url_id=3DB21594-FE8A-71E1-4EE5EA73D071F235"
+}
+
+
+
+
+https://twittercommunity.com/t/webhooks-for-tweets/94174/4
+
+
+https://twittercommunity.com/t/really-callback-for-share-event/59682
+
+Facebook
+Twitter
+Linkedin
+Pintrest
+WhatsApp
+Gmail
+Instagram
+reddit
+Tumblr

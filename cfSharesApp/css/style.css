@@ -1,0 +1,119 @@
+/*Service Colors
+	Facebook:#3B5998
+	Twitter: #1DA1F2
+	Linkedin:#007BB5
+	Pintrest:#BD081C
+	Google+:#DB4437
+	Instagram:#C32AA3
+	WhatsApp:#25D366
+	Tumblr:#35465D
+	Reddit: #FF4500
+*/
+
+.col-sm-3 h3 {
+	font-weight: 600;
+}
+
+.col-sm-3 {
+	margin-top: 50px;
+}
+#facebookCounts h3 {
+	color: #3B5998;
+}
+
+#twitterCounts h3 {
+	color:#1DA1F2;
+}
+
+#linkedinCounts h3 {
+	color: #007BB5;
+}
+
+#pintrestCounts h3 {
+	color: #BD081C;
+}
+
+#gmailCounts h3 {
+	color: #DB4437;
+}
+
+.container {
+	width:100%;
+}
+table, th, td {
+	border: 1px solid black;
+	text-align: center;
+	padding: 5px;
+	margin: 0px auto;
+}
+
+tr:hover {
+	background-color: #f5f5f5;
+}
+
+th {
+	background-color: cornflowerblue;
+}
+
+div {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+.sharesData {
+	margin: 0;
+}
+
+.tabContent {
+	border: 1px solid #ccc;
+	margin:auto;
+	max-width: 85%;
+}
+.shareTabNav {
+	margin: 0px;
+	float:left;
+	margin-left:90px;
+}
+
+.clear-fix {
+	height:1px;
+}
+.shareTabNav li, .shareStats li {
+	display: inline;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	line-height: normal;
+	border-bottom: none;
+}
+.shareStats li {
+	margin: auto 75px;
+}
+
+li h4 {
+	display: inline;
+}
+
+.statsContainer {
+	margin-top: 75px;
+}
+
+.shareStats {
+	margin-top: 100px;
+}
+
+.shareTabNav .active {
+	background: #fff;
+	border-bottom: 1px solid #fff;
+	color: #000;
+}
+
+.shareTabNav li a {
+	padding: 3px 10px;
+	margin-right: 3px;
+	text-decoration: none;
+	border: 1px solid #ccc;
+	border-bottom: none;
+	color #666;
+	background-color: #fgfgfg;
+}

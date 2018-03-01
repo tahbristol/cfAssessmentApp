@@ -2,6 +2,34 @@ html {
 	height: 100%;
 }
 
+#spinner {
+	height: 150px;
+	width: 150px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#containSpinner {
+	height: 200px;
+}
+
+#cleared {
+	position: absolute;
+	left: 500px;
+}
+
+button#clearSession {
+	margin-bottom: 8px;
+}
+
+div.container.row {
+	width: 400px;
+}
+
+.dimmer {
+	opacity: .5;
+}
+
 body {
 	font-family: 'Roboto', sans-serif;
 	position: relative;
@@ -68,7 +96,7 @@ ul li {
 	font-size: 20px;
 }
 
-main.jumbotron {
+main.jumbotron, #displayOfficials {
 	text-align: center;
 	margin-bottom: 0;
 	padding: 5px 6px;
@@ -84,7 +112,7 @@ main h4 {
 }
 
 form {
-	margin: 20px;
+	margin: 15px;
 }
 
 input {

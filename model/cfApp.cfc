@@ -17,11 +17,10 @@
 		<cfreturn result.filecontent/>
 	</cffunction>
 
-	<cffunction name="makeOfficialsStruct">
+	<cffunction name="makeOfficials">
 		<cfargument name="officialsString" type="string">
 		<cfset local.officialsJSON=deserializeJSON(officialsString)/>
 		<cfset local.officialsInfoFields=["name" ,"party" ,"phones" ,"urls" ,"emails" ,"position" , "photoUrl" ]/>
-		<!--can remove?-->
 		<cfset local.officialsArray=[]>
 		<cfset local.officials=officialsJSON.officials/>
 		<cfset local.offices=officialsJSON.offices/>
@@ -35,7 +34,7 @@
 				<cfelse>
 					<cfset official["email" ]="Unknown"/>
 				</cfif>
-				
+
 				<cfif StructKeyExists(officials[offices[i].officialIndices[j]+1], "urls")>
 					<cfset official["website" ]=officials[offices[i].officialIndices[j] + 1].urls[1]/>
 				<cfelse>
@@ -74,7 +73,7 @@
 		<cfreturn local.officialsArray>
 	</cffunction>
 
-	<cffunction name="makeElectionsStruct">
+	<cffunction name="makeElections">
 		<cfargument name="electionsString" type="string">
 		<cfset local.electionsJSON=deserializeJSON(electionsString)/>
 		<cfset local.elections=electionsJSON.election/>
@@ -82,7 +81,8 @@
 		<cfset local.dropOffLocations=arraySlice(electionsJSON.dropOffLocations, 1, 3)/>
 		<cfset local.stateInfo=electionsJSON.state[1]/>
 		<cfset local.votingInfo=stateInfo.electionAdministrationBody/>
-		<cfreturn [elections, votingInfo, dropOffLocations]/>
+		<cfset local.electionsStruct={}/>
+		<cfreturn [elections,votingInfo,dropOffLocations]/>
 	</cffunction>
 
 	<cffunction name="getErrorMessage">
@@ -91,4 +91,61 @@
 		<cfset local.message=errorJSON.error.errors[1].message/>
 		<cfreturn message>
 	</cffunction>
+
+	<cffunction name="saveUserAddress">
+		<cfargument name="address" type="string">
+		<cfif !StructKeyExists(cookie, 'cfApp')>
+			<cfset issueCookie("cfApp")/>
+		</cfif>
+		<cfif !StructKeyExists(session, "cfAppUserAddress")><!--- When user returns after session expires, make a new session --->
+			<cfset session.cfAppUserAddress=address/>
+			<cfquery datasource="cfappvisitors" ><!--- update record with new sessionid --->
+				UPDATE dbo.Users SET Address= <cfqueryparam value="#address#"/>
+				WHERE CookieID= <cfqueryparam value="#cookie.cfApp#"/><!----fix this "#cookie.cfApp#" --->
+			</cfquery>
+		<cfelse>
+			<cfquery datasource="cfappvisitors" name="local.userAddress">
+				SELECT Address FROM dbo.Users WHERE CookieID= <cfqueryparam value="#cookie.cfApp#"/>
+			</cfquery>
+			<cfif userAddress.Address neq address and address neq ''>
+				<cfquery datasource="cfappvisitors">
+					UPDATE dbo.Users SET Address= <cfqueryparam value="#address#"/>
+					WHERE CookieID= <cfqueryparam value="#cookie.cfApp#"/>
+				</cfquery>
+				<cfset session.cfAppUserAddress=address/>
+			</cfif>
+		</cfif>
+	</cffunction>
+
+	<cffunction name="saveOrIssueCookie">
+		<cfargument name="cookieKey" type="string">
+		<cfif StructKeyExists(cookie, "#cookieKey#") and isValid("UUID",cookie["#cookieKey#"])>
+			<cfset local.cookieValue = cookie["#cookieKey#"]/>
+			<cfif !StructKeyExists(session, "#cookieKey#")>
+				<cfset session.cfAppUserCookie=cookie["#cookieKey#" ]/>
+				<cfquery datasource="cfappvisitors" name="local.user">
+					SELECT Address FROM dbo.Users WHERE CookieID= <cfqueryparam value="#cookieValue#"/>
+				</cfquery>
+				<cfset session.cfAppUserAddress=user.address/>
+			</cfif>
+		<cfelse>
+			<cfset issueCookie(cookieKey)/>
+		</cfif>
+	</cffunction>
+
+	<cffunction name="issueCookie">
+		<cfargument name="cookieKey">
+		<cfset local.cookieID=createUUID()/>
+		<cfcookie name="#cookieKey#" value="#cookieID#" expires=1/>
+		<cflock timeout=30 scope="Session" type="Readonly">
+			<cfset session.cfAppUserCookie=cookie["#cookieKey#"]/>
+		</cflock>
+		<cfquery datasource="cfappvisitors" >
+			INSERT dbo.Users (CookieID) VALUES
+			(
+			<cfqueryparam value="#cookieID#"/>
+			)
+		</cfquery>
+	</cffunction>
+
 </cfcomponent>
