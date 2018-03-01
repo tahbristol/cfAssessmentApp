@@ -1,7 +1,6 @@
-
 $(document).ready(function() {
-  $('#containSpinner').hide();
-	$('#searchOfficials').prop('checked',true);
+	$('#containSpinner').hide();
+	$('#searchOfficials').prop('checked', true);
 	$('form').on('submit', function(e) {
 		let searchType;
 		let userAddress = $('#addressToSearch').val();
@@ -21,14 +20,14 @@ $(document).ready(function() {
 			});
 	});
 
-  $('#clearSession').on('click', function(e) {
-      $.post('/cfAssessmentApp/index.cfm?action=main.clearSession')
-      .done((data) => {
-        $('#displayData').prepend(data)
-        let clearedDiv = $('#cleared');
-        fadeOutDiv(clearedDiv);
-      })
-  })
+	$('#clearSession').on('click', function(e) {
+		$.post('/cfAssessmentApp/index.cfm?action=main.clearSession')
+			.done((data) => {
+				$('#displayData').prepend(data)
+				let clearedDiv = $('#cleared');
+				fadeOutDiv(clearedDiv);
+			})
+	})
 });
 
 $(document).ajaxStart(function() {
@@ -36,12 +35,12 @@ $(document).ajaxStart(function() {
 	$('#containSpinner').show();
 });
 
-$(document).ajaxComplete(function(){
+$(document).ajaxComplete(function() {
 	$('#containSpinner').hide();
 })
 
 function fadeOutDiv(div) {
-  $(div).fadeOut(3000);
+	$(div).fadeOut(3000);
 }
 
 function initAutocomplete() { //for google autocomplte address function
